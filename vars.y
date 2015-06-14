@@ -7,7 +7,7 @@
  
 %union { int i; std::string *s; }
  
-%token BATATA
+%token PREUNARY
 %token<i> INT
 %token<s> VAR
 %type<i> expr
@@ -15,7 +15,7 @@
 %right '='
 %left '+' '-'
 %left '*' '/' '%'
-%right BATATA
+%right PREUNARY
  
 %%
  
@@ -35,8 +35,8 @@ expr: INT               { $$ = $1; }
     | expr '*' expr     { $$ = $1 * $3; }
     | expr '/' expr     { $$ = $1 / $3; }
     | expr '%' expr     { $$ = $1 % $3; }
-    | '+' expr  %prec BATATA    { $$ =  $2; }
-    | '-' expr  %prec BATATA    { $$ = -$2; }
+    | '+' expr  %prec PREUNARY    { $$ =  $2; }
+    | '-' expr  %prec PREUNARY    { $$ = -$2; }
     | '(' expr ')'              { $$ =  $2; }
     ;
  
